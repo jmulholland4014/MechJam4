@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0a8orntj7ch5"]
+
+[ext_resource type="PackedScene" uid="uid://ctjbjwbes0tgx" path="res://Characters/Character.tscn" id="1_pd80l"]
+[ext_resource type="Script" path="res://Characters/Enemies/enemy.gd" id="2_31lod"]
+
+[node name="Enemy" instance=ExtResource("1_pd80l")]
+script = ExtResource("2_31lod")
+
+[node name="PathTimer" type="Timer" parent="." index="4"]
+wait_time = 0.1
+autostart = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." index="5"]
+
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
+[connection signal="timeout" from="PathTimer" to="." method="_on_path_timer_timeout"]

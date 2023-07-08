@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1g7imea81j5n"]
+
+[ext_resource type="Script" path="res://Rooms/blocker.gd" id="1_k52bg"]
+[ext_resource type="Texture2D" uid="uid://bqcldhrjhfxc1" path="res://Assets/SnowAssets/WallTile.png" id="2_anhch"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjjxq"]
+size = Vector2(127, 62)
+
+[node name="Blocker" type="StaticBody2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_k52bg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_anhch")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_gjjxq")

@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://dvg1th7r0qx6c"]
+
+[ext_resource type="Script" path="res://Rooms/door.gd" id="1_ykdhp"]
+[ext_resource type="Texture2D" uid="uid://dno7xftr70n2h" path="res://Assets/v1.1 dungeon crawler 16X16 pixel pack/Door-removebg-preview.png" id="2_v0gaf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_22rw7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_v0gaf")
+}],
+"loop": true,
+"name": &"Closed",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8ssl"]
+size = Vector2(134, 36)
+
+[sub_resource type="Animation" id="Animation_b48mx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Open"]
+}
+
+[sub_resource type="Animation" id="Animation_5gf21"]
+resource_name = "close"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Closed"]
+}
+
+[sub_resource type="Animation" id="Animation_dr0kr"]
+resource_name = "open"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Open"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u47vj"]
+_data = {
+"RESET": SubResource("Animation_b48mx"),
+"close": SubResource("Animation_5gf21"),
+"open": SubResource("Animation_dr0kr")
+}
+
+[node name="Door" type="StaticBody2D"]
+script = ExtResource("1_ykdhp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_22rw7")
+animation = &"Open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 3
+position = Vector2(1, 13)
+scale = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_x8ssl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_u47vj")
+}

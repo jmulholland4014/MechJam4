@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgesw1qbsfcxh"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_orup3"]
+[ext_resource type="PackedScene" uid="uid://bt83t8l85qlv0" path="res://Characters/Player/player.tscn" id="3_8fhmi"]
+[ext_resource type="Script" path="res://Rooms/Rooms.gd" id="3_bo5y5"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_orup3")
+
+[node name="Player" parent="." instance=ExtResource("3_8fhmi")]
+z_index = 1
+position = Vector2(253, 306)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Rooms" type="Node2D" parent="."]
+script = ExtResource("3_bo5y5")

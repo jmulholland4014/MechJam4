@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://cdppn1w4sgyes"]
+
+[ext_resource type="Texture2D" uid="uid://d30rmwdcntnmi" path="res://Assets/v1.1 dungeon crawler 16X16 pixel pack/effects (new)/enemy_afterdead_explosion_anim_spritesheet.png" id="1_1125h"]
+[ext_resource type="Script" path="res://Effects/spawn_explosion.gd" id="2_5dmrc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cctcr"]
+atlas = ExtResource("1_1125h")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdm3f"]
+atlas = ExtResource("1_1125h")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4cki"]
+atlas = ExtResource("1_1125h")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c65em"]
+atlas = ExtResource("1_1125h")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vs2f8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cctcr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdm3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4cki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c65em")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_p0k5l"]
+resource_name = "Explode"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_h7ngf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3jlib"]
+_data = {
+"Explode": SubResource("Animation_p0k5l"),
+"RESET": SubResource("Animation_h7ngf")
+}
+
+[node name="SpawnExplosion" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_vs2f8")
+script = ExtResource("2_5dmrc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3jlib")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
