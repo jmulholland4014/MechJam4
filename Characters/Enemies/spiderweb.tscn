@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfuoeodmr5c3b"]
+
+[ext_resource type="Texture2D" uid="uid://b64ys0qdwnk2o" path="res://Assets/MechaAssets/png-transparent-spider-web-spider-silk-spider-game-angle-white-thumbnail-removebg-preview.png" id="1_fr8bf"]
+[ext_resource type="Script" path="res://Characters/Enemies/spiderweb.gd" id="1_rwy11"]
+[ext_resource type="Script" path="res://Characters/Enemies/spiderHitBox.gd" id="2_goe16"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u4quf"]
+radius = 120.416
+
+[node name="Spiderweb" type="CharacterBody2D"]
+modulate = Color(0, 0, 0, 1)
+z_index = 3
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_rwy11")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fr8bf")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("2_goe16")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-20, -10)
+shape = SubResource("CircleShape2D_u4quf")
+disabled = true
+
+[connection signal="body_entered" from="Hitbox" to="Hitbox" method="_on_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="Hitbox" method="_on_body_exited"]

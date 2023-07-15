@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgmw5klt2r0b5"]
+
+[ext_resource type="Script" path="res://battery_charger.gd" id="1_jb0jo"]
+[ext_resource type="Texture2D" uid="uid://xkst50oppg3r" path="res://Assets/MechaAssets/spritesheet (1).png" id="1_o1aw8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7nbjl"]
+radius = 65.2533
+
+[node name="BatteryCharger" type="Node2D"]
+script = ExtResource("1_jb0jo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_o1aw8")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_7nbjl")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(21, 0, 37, 0, 38, 8, 36, 15, 24, 16, 19, 11)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-6, -1, 8, -1, 7, 13, -8, 13)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-38, -1, -20, -1, -19, 10, -24, 15, -32, 16, -39, 9)
+
+[node name="Enemy Positions" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="Enemy Positions"]
+position = Vector2(-102, 0)
+
+[node name="Marker2D2" type="Marker2D" parent="Enemy Positions"]
+position = Vector2(90, 0)
+
+[node name="Marker2D3" type="Marker2D" parent="Enemy Positions"]
+position = Vector2(1, -85)
+
+[node name="WaveSpawner" type="Timer" parent="."]
+wait_time = 2.5
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="WaveSpawner" to="." method="_on_wave_spawner_timeout"]

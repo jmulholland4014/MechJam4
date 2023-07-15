@@ -8,7 +8,6 @@ const TILE_SIZE: int = 16
 const FLOOR_TILE_INDEX: int = 5
 const RIGHT_WALL_TILE_INDEX: int = 2
 const LEFT_WALL_TILE_INDEX: int = 2
-
 @export var num_levels: int = 5
 
 @onready var player: CharacterBody2D = get_parent().get_node("Player")

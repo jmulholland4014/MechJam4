@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://diikx4y2a6vwr"]
+[gd_scene load_steps=29 format=3 uid="uid://diikx4y2a6vwr"]
 
 [ext_resource type="PackedScene" uid="uid://b0a8orntj7ch5" path="res://Characters/Enemies/enemy.tscn" id="1_d6ei8"]
 [ext_resource type="Script" path="res://Characters/Enemies/enemy_1FSM.gd" id="2_7iasm"]
 [ext_resource type="Script" path="res://Characters/Enemies/enemy_1.gd" id="2_lud4y"]
 [ext_resource type="Texture2D" uid="uid://srqnrl040pd7" path="res://Assets/Character/Walk/Left/000.png" id="3_huu3a"]
 [ext_resource type="Texture2D" uid="uid://djsjgk0mv2gc1" path="res://Assets/Character/Death/Right/Animation/000.png" id="3_onah5"]
+[ext_resource type="Script" path="res://hitbox.gd" id="3_ukl3p"]
 [ext_resource type="Texture2D" uid="uid://c2e7mxctcvao0" path="res://Assets/Character/Death/Right/Animation/001.png" id="4_j8g2d"]
 [ext_resource type="Texture2D" uid="uid://doesu1hx0tnfp" path="res://Assets/Character/Walk/Left/001.png" id="4_vwx4s"]
 [ext_resource type="Texture2D" uid="uid://dwhjc5q1sjtd6" path="res://Assets/Character/Death/Right/Animation/002.png" id="5_6ys83"]
@@ -20,6 +21,9 @@
 [ext_resource type="Texture2D" uid="uid://yechx56bn56r" path="res://Assets/Character/Death/Right/Animation/009.png" id="12_0xgye"]
 [ext_resource type="Texture2D" uid="uid://cq0fnp4b0xgf0" path="res://Assets/Character/Death/Right/Animation/010.png" id="13_eili4"]
 [ext_resource type="Texture2D" uid="uid://04s74vqpc2io" path="res://Assets/Character/Death/Right/Animation/011.png" id="14_tb0e4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtnsh"]
+size = Vector2(29, 29)
 
 [sub_resource type="Animation" id="Animation_cdhr7"]
 loop_mode = 1
@@ -63,6 +67,71 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_hrigx"]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../HitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_20yvo"]
 resource_name = "move"
@@ -84,6 +153,7 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_cdhr7"),
 "death": SubResource("Animation_us38k"),
+"hurt": SubResource("Animation_hrigx"),
 "move": SubResource("Animation_20yvo")
 }
 
@@ -133,6 +203,14 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_huu3a")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_huu3a")
 }, {
 "duration": 1.0,
 "texture": ExtResource("4_vwx4s")
@@ -151,32 +229,37 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_psgmu"]
-size = Vector2(40, 53)
-
 [node name="Enemy1" instance=ExtResource("1_d6ei8")]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("2_lud4y")
 acceleration = 3
 max_speed = 25
 
-[node name="FiniteStateMachine" parent="." index="0"]
+[node name="HitBox" type="Area2D" parent="." index="0"]
+scale = Vector2(2, 2)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_ukl3p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2(-1.5, 0.5)
+shape = SubResource("RectangleShape2D_vtnsh")
+
+[node name="FiniteStateMachine" parent="." index="1"]
 script = ExtResource("2_7iasm")
 
-[node name="AnimationPlayer" parent="." index="1"]
+[node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_sqw7y")
 }
 
-[node name="AnimatedSprite2D" parent="." index="2"]
+[node name="AnimatedSprite2D" parent="." index="3"]
+texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_cmsu7")
 animation = &"move"
 
-[node name="CollisionPolygon2D" parent="." index="3"]
+[node name="CollisionPolygon2D" parent="." index="4"]
 polygon = PackedVector2Array(-20, -24, 12, -18, 16, -14, 16, -6, 20, -6, 20, -2, 14, 2, 16, 10, 12, 16, 12, 20, 12, 22, 6, 24, 0, 20, -2, 24, 2, 28, -10, 22, -22, 10, -30, 14, -22, 6, -16, 6, -16, 0, -16, -2, -12, -2, -12, -18)
 
-[node name="HitBox" type="Area2D" parent="." index="5"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" index="0"]
-position = Vector2(2, 2.5)
-shape = SubResource("RectangleShape2D_psgmu")
+[connection signal="body_entered" from="HitBox" to="HitBox" method="_on_body_entered"]
+[connection signal="body_exited" from="HitBox" to="HitBox" method="_on_body_exited"]

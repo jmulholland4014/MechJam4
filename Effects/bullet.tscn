@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://76wit473fcdk"]
+
+[ext_resource type="Texture2D" uid="uid://cqw01wighnr43" path="res://Assets/MechaAssets/OrbBullet.png" id="1_1x6oj"]
+[ext_resource type="Script" path="res://Effects/bullet.gd" id="1_scx8e"]
+[ext_resource type="Script" path="res://hitbox.gd" id="3_6ycd2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0h0l8"]
+radius = 2.23607
+
+[node name="Bullet" type="RigidBody2D"]
+collision_layer = 7
+collision_mask = 7
+gravity_scale = 0.0
+script = ExtResource("1_scx8e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_1x6oj")
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("3_6ycd2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_0h0l8")
+
+[connection signal="body_entered" from="HitBox" to="HitBox" method="_on_body_entered"]
+[connection signal="body_exited" from="HitBox" to="HitBox" method="_on_body_exited"]
+[connection signal="hit_object" from="HitBox" to="." method="_on_hit_box_hit_object"]

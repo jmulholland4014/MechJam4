@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://dd7dvtpoidjjh"]
+
+[ext_resource type="Shader" path="res://Electricity.gdshader" id="1_pmgem"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g1qbd"]
+shader = ExtResource("1_pmgem")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_j2k15"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0nsv3"]
+noise = SubResource("FastNoiseLite_j2k15")
+
+[node name="Electricity" type="Node2D"]
+position = Vector2(241, 151)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_g1qbd")
+texture = SubResource("NoiseTexture2D_0nsv3")

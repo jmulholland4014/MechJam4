@@ -7,6 +7,7 @@ var state: int = -1: set = set_state
 
 @onready var parent: Character = get_parent()
 @onready var animation_player: AnimationPlayer = parent.get_node("AnimationPlayer")
+@onready var animated_sprite = parent.get_node("AnimatedSprite2D")
 
 
 func _physics_process(delta: float) -> void:

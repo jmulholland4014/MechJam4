@@ -8,7 +8,9 @@ class_name Enemy
 
 func _ready() -> void:
 	var __ = connect("tree_exited", Callable(get_parent(), "_on_enemy_killed"))
-
+	acceleration *= SavedData.difficulty_multiplier
+	max_speed *= SavedData.difficulty_multiplier
+	hp *= SavedData.difficulty_multiplier
 
 func chase() -> void:
 	if not navigation_agent.is_target_reached():
@@ -30,4 +32,4 @@ func _on_path_timer_timeout():
 		path_timer.stop()
 		mov_direction = Vector2.ZERO
 	pass # Replace with function body.
-
+	

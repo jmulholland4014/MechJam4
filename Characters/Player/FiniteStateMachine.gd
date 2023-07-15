@@ -16,6 +16,7 @@ func _state_logic(_delta: float) -> void:
 	if state == states.idle or state == states.move:
 		parent.get_input()
 		parent.move()
+		
 	
 	
 func _get_transition() -> int:
@@ -35,12 +36,15 @@ func _get_transition() -> int:
 func _enter_state(_previous_state: int, new_state: int) -> void:
 	match new_state:
 		states.idle:
+			animated_sprite.animation = "idle"
 			animation_player.play("idle")
 		states.move:
+			animated_sprite.animation = "move"
 			animation_player.play("move")
 		states.hurt:
 			animation_player.play("hurt")
-			parent.cancel_attack()
+			#parent.cancel_attack()
 		states.dead:
-			animation_player.play("dead")
-			parent.cancel_attack()
+			animated_sprite.animation = "death"
+			animation_player.play("death")
+			#parent.cancel_attack()

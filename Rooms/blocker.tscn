@@ -8,6 +8,7 @@ size = Vector2(127, 62)
 
 [node name="Blocker" type="StaticBody2D"]
 scale = Vector2(0.5, 0.5)
+collision_mask = 2
 script = ExtResource("1_k52bg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

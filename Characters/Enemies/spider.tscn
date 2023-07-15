@@ -1,0 +1,207 @@
+[gd_scene load_steps=18 format=3 uid="uid://bkph7jrf6yt1b"]
+
+[ext_resource type="PackedScene" uid="uid://b0a8orntj7ch5" path="res://Characters/Enemies/enemy.tscn" id="1_yvytl"]
+[ext_resource type="Texture2D" uid="uid://d30rmwdcntnmi" path="res://Assets/v1.1 dungeon crawler 16X16 pixel pack/effects (new)/enemy_afterdead_explosion_anim_spritesheet.png" id="2_8mac1"]
+[ext_resource type="Texture2D" uid="uid://dlhel6q615fjf" path="res://Assets/MechaAssets/mech_emeny-0001.png" id="2_jc35b"]
+[ext_resource type="Script" path="res://Characters/Enemies/spider.gd" id="2_rdy4a"]
+[ext_resource type="Script" path="res://Characters/Enemies/SpiderFiniteStateMachine.gd" id="3_u45px"]
+[ext_resource type="Script" path="res://Characters/Enemies/SpiderPathTimer.gd" id="6_ssgwe"]
+
+[sub_resource type="Animation" id="Animation_imafb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_t28pr"]
+resource_name = "explosion"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_mnmna"]
+resource_name = "hurt"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_3ar17"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_marxi"]
+resource_name = "walk"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_68byl"]
+_data = {
+"RESET": SubResource("Animation_imafb"),
+"explosion": SubResource("Animation_t28pr"),
+"hurt": SubResource("Animation_mnmna"),
+"idle": SubResource("Animation_3ar17"),
+"walk": SubResource("Animation_marxi")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cgln5"]
+atlas = ExtResource("2_8mac1")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ie84f"]
+atlas = ExtResource("2_8mac1")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehny1"]
+atlas = ExtResource("2_8mac1")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cp2r"]
+atlas = ExtResource("2_8mac1")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8nqrl"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cgln5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ie84f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehny1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3cp2r")
+}],
+"loop": true,
+"name": &"explosion",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jc35b")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jc35b")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[node name="Spider" instance=ExtResource("1_yvytl")]
+script = ExtResource("2_rdy4a")
+projectile_speed = 150
+acceleration = 3
+max_speed = 25
+
+[node name="FiniteStateMachine" parent="." index="0"]
+script = ExtResource("3_u45px")
+
+[node name="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_68byl")
+}
+
+[node name="AnimatedSprite2D" parent="." index="2"]
+sprite_frames = SubResource("SpriteFrames_8nqrl")
+animation = &"move"
+
+[node name="CollisionPolygon2D" parent="." index="3"]
+polygon = PackedVector2Array(16, 16, -13, 17, -17, 1, -16, -15, 4, -16, 10, -4, 16, 3, 16, 13)
+
+[node name="PathTimer" parent="." index="4"]
+script = ExtResource("6_ssgwe")
+
+[node name="AttackTimer" type="Timer" parent="." index="6"]
+wait_time = 6.0
+
+[connection signal="pathTimeOut" from="PathTimer" to="." method="_on_path_timer_path_time_out"]
+[connection signal="timeout" from="PathTimer" to="PathTimer" method="_on_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

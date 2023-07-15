@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkoxhj3ma3e2s"]
+[gd_scene load_steps=7 format=3 uid="uid://bkoxhj3ma3e2s"]
 
 [ext_resource type="PackedScene" uid="uid://bvnntfg0jwyws" path="res://Rooms/room.tscn" id="1_knu37"]
 [ext_resource type="PackedScene" uid="uid://c1g7imea81j5n" path="res://Rooms/blocker.tscn" id="2_hfggl"]
+[ext_resource type="PackedScene" uid="uid://c62tt6wh3f3pk" path="res://stairs.tscn" id="3_agkt8"]
+[ext_resource type="PackedScene" uid="uid://k4p1adqg2h04" path="res://upgrade_chest.tscn" id="4_mdrbp"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_dayfh"]
 vertices = PackedVector2Array(3, 23, 2275, 23, 2279, 1523, -9, 1523)
@@ -12,8 +14,11 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(3, 23, 2275, 23, 2279, 
 size = Vector2(67.5, 38.5)
 
 [node name="End_Room" instance=ExtResource("1_knu37")]
+boss_room = true
 
-[node name="NavigationRegion2D" parent="." index="0"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="0"]
+
+[node name="NavigationRegion2D" parent="." index="1"]
 navigation_polygon = SubResource("NavigationPolygon_dayfh")
 
 [node name="TileMap" parent="NavigationRegion2D" index="0"]
@@ -29,3 +34,14 @@ position = Vector2(1084, 506)
 
 [node name="Blocker" parent="Blockers" index="0" instance=ExtResource("2_hfggl")]
 position = Vector2(1056, 1504)
+
+[node name="Camera2D" type="Camera2D" parent="." index="6"]
+position = Vector2(1104, 792)
+zoom = Vector2(0.1, 0.1)
+
+[node name="Stairs" parent="." index="7" instance=ExtResource("3_agkt8")]
+visible = false
+position = Vector2(1585, 814)
+
+[node name="UpgradeChest" parent="." index="8" instance=ExtResource("4_mdrbp")]
+position = Vector2(1277, 682)
